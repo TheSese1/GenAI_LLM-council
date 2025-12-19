@@ -1,4 +1,4 @@
-# LLM Council
+# LLM Council -> To modify for local inference
 
 ![llmcouncil](header.jpg)
 
