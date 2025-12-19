@@ -1,87 +1,133 @@
-# LLM Council -> To modify for local inference
+# LLM Council — Local & Distributed Deployment with Ollama
 
-![llmcouncil](header.jpg)
+This project is a refactoring and local deployment of **Andrej Karpathy’s LLM Council**, a system where multiple Large Language Models (LLMs) collaboratively answer a user query, critique each other’s responses, and synthesize a final answer through a designated **Chairman** model.
 
-The idea of this repo is that instead of asking a question to your favorite LLM provider (e.g. OpenAI GPT 5.1, Google Gemini 3.0 Pro, Anthropic Claude Sonnet 4.5, xAI Grok 4, eg.c), you can group them into your "LLM Council". This repo is a simple, local web app that essentially looks like ChatGPT except it uses OpenRouter to send your query to multiple LLMs, it then asks them to review and rank each other's work, and finally a Chairman LLM produces the final response.
+The original implementation relies on **OpenRouter / OpenAI** for model access.  
+Our goal is to **fully replace external APIs with locally hosted LLMs using Ollama**, enabling a **distributed multi-LLM system** running across one or more machines.
 
-In a bit more detail, here is what happens when you submit a query:
+---
 
-1. **Stage 1: First opinions**. The user query is given to all LLMs individually, and the responses are collected. The individual responses are shown in a "tab view", so that the user can inspect them all one by one.
-2. **Stage 2: Review**. Each individual LLM is given the responses of the other LLMs. Under the hood, the LLM identities are anonymized so that the LLM can't play favorites when judging their outputs. The LLM is asked to rank them in accuracy and insight.
-3. **Stage 3: Final response**. The designated Chairman of the LLM Council takes all of the model's responses and compiles them into a single final answer that is presented to the user.
+## 📌 What Is the LLM Council?
 
-## Vibe Code Alert
+The **LLM Council** is a structured multi-agent reasoning system:
 
-This project was 99% vibe coded as a fun Saturday hack because I wanted to explore and evaluate a number of LLMs side by side in the process of [reading books together with LLMs](https://x.com/karpathy/status/1990577951671509438). It's nice and useful to see multiple responses side by side, and also the cross-opinions of all LLMs on each other's outputs. I'm not going to support it in any way, it's provided here as is for other people's inspiration and I don't intend to improve it. Code is ephemeral now and libraries are over, ask your LLM to change it in whatever way you like.
+- Multiple LLMs independently answer the same user query
+- Models anonymously review and rank each other’s answers
+- A designated **Chairman LLM** aggregates all responses
+- The Chairman produces a final, synthesized answer
 
-## Setup
+This setup improves reasoning quality by encouraging diversity, critique, and consensus.
 
-### 1. Install Dependencies
+---
 
-The project uses [uv](https://docs.astral.sh/uv/) for project management.
+## 🧠 Council Workflow
 
-**Backend:**
-```bash
-uv sync
+### Stage 1 — First Opinions
+- Each LLM answers the user query independently
+- Responses are collected
+- The individual responses are shown in a "tab view", so that the user can inspect them all one by one
+
+### Stage 2 — Review
+- Each individual LLM is given the anonymized responses of the other LLMs
+- The LLM is asked to rank them in accuracy and insight
+
+### Stage 3 — Chairman Final Answer
+- The Chairman LLM receives:
+  - All original answers
+  - All peer rankings and reviews
+- He then compiles them into a single final answer that is presented to the user
+
+---
+
+## 🎯 Project Goal
+
+Refactor the original LLM Council to run **entirely locally**, using **Ollama** as the LLM runtime instead of OpenRouter.
+
+### Key Objectives
+- Replace all OpenRouter/OpenAI calls with **Ollama REST API**
+- Run multiple LLMs locally and/or across multiple machines
+- Implement a fully working distributed **LLM Council**
+- Demonstrate an end-to-end working prototype
+
+---
+
+## 🛠️ Technology Stack
+
+- **Python**
+- **Ollama** (local LLM hosting)
+- **REST APIs** (inter-machine communication)
+- **Original LLM Council codebase by Andrej Karpathy**
+
+---
+
+## 🧩 Architecture Overview
+```
+User Query
+↓
+Multiple LLM Nodes (via Ollama)
+↓
+Anonymous Review & Ranking
+↓
+Chairman LLM (Separate Instance)
+↓
+Final Synthesized Answer
 ```
 
-**Frontend:**
-```bash
-cd frontend
-npm install
-cd ..
-```
+---
 
-### 2. Configure API Key
+## ✅ Mandatory Requirements
 
-Create a `.env` file in the project root:
+- Replace **OpenRouter** with **Ollama** for *all* LLM calls
+- Each team member must run **at least one LLM**
+- Models may run on:
+  - Separate machines, or
+  - The same machine if resources permit
+- Machines must communicate using the **Ollama REST API**
+- The **Chairman LLM** must run on a separate instance (ideally a separate machine)
 
-```bash
-OPENROUTER_API_KEY=sk-or-v1-...
-```
+---
 
-Get your API key at [openrouter.ai](https://openrouter.ai/). Make sure to purchase the credits you need, or sign up for automatic top up.
+## 🧪 Evaluation Criteria
 
-### 3. Configure Models (Optional)
+- **Code Quality**
+  - Clean refactoring
+  - Modular and readable logic
+- **Functionality**
+  - Fully working council workflow
+  - Proper chairman synthesis
+- **Improvements**
+  - Enhancements beyond the original repository
+- **Documentation**
+  - Clear README
+  - Setup guide
+  - Architecture explanation
+  - Final report
 
-Edit `backend/config.py` to customize the council:
+---
 
-```python
-COUNCIL_MODELS = [
-    "openai/gpt-5.1",
-    "google/gemini-3-pro-preview",
-    "anthropic/claude-sonnet-4.5",
-    "x-ai/grok-4",
-]
+## 📅 Important Dates
 
-CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
-```
+- **Deadline:** January 3rd
+- **Final Demo:** In-class demonstration during the last TD session
 
-## Running the Application
+⚠️ Make sure all machines are tested, connected, and running before evaluation.
 
-**Option 1: Use the start script**
-```bash
-./start.sh
-```
+---
 
-**Option 2: Run manually**
+## 🚀 Getting Started (Quick Overview)
 
-Terminal 1 (Backend):
-```bash
-uv run python -m backend.main
-```
+1. Install [Ollama](https://ollama.com/) on each machine
+2. Pull the required models (e.g. `llama3`, `mistral`, etc.)
+3. Configure each LLM instance in the project settings
+4. Start the council services
+5. Submit a query and observe the full council workflow
 
-Terminal 2 (Frontend):
-```bash
-cd frontend
-npm run dev
-```
+> A detailed setup guide is provided in the `docs/` folder.
 
-Then open http://localhost:5173 in your browser.
+---
 
-## Tech Stack
+## 📚 References
 
-- **Backend:** FastAPI (Python 3.10+), async httpx, OpenRouter API
-- **Frontend:** React + Vite, react-markdown for rendering
-- **Storage:** JSON files in `data/conversations/`
-- **Package Management:** uv for Python, npm for JavaScript
+- Andrej Karpathy – *LLM Council (Original Concept)*
+- Ollama – Local LLM Runtime
+- REST-based distributed systems
