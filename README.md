@@ -201,6 +201,18 @@ Here, for a project with two members :
 
 ---
 
+## 🤖 Generative AI Usage Statement
+
+This project made use of generative AI tools to assist with certain tasks. (Specifically: GPT-5 mini)
+
+- Documentation Writing : The content and structure of this README, including setup instructions, project overview, and workflow explanations, were drafted and refined with the help of a generative AI assistant.
+
+- Content Summarization & Workflow Explanation : Summaries of the LLM Council workflow stages and architecture diagrams were clarified and structured with AI guidance.
+
+- Code generation : ...
+
+---
+
 ## 📚 References
 
 - Andrej Karpathy – *LLM Council (Original Concept)*
