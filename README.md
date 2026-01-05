@@ -60,17 +60,25 @@ Refactor the original LLM Council to run **entirely locally**, using **Ollama** 
 
 ---
 
-## 🧩 Architecture Overview
+## 🧩 Project Structure Overview (subject to change)
 ```
-User Query
-↓
-Multiple LLM Nodes (via Ollama)
-↓
-Anonymous Review & Ranking
-↓
-Chairman LLM (Separate Instance)
-↓
-Final Synthesized Answer
+project/
+│
+├── backend/
+│ ├── __init__.py
+│ ├── config.py
+│ ├── council.py
+│ ├── main.py
+│ └── storage.py
+│
+├── docs/
+│ └── setup-guide.md
+│
+├── README.md
+├── main.py
+├── pyproject.toml
+├── start.sh
+└── requirements.txt
 ```
 
 ---
@@ -81,7 +89,7 @@ Final Synthesized Answer
 - Each team member must run **at least one LLM**
 - Models may run on:
   - Separate machines, or
-  - The same machine if resources permit
+  - The same machine if resources allow
 - Machines must communicate using the **Ollama REST API**
 - The **Chairman LLM** must run on a separate instance (ideally a separate machine)
 
@@ -107,7 +115,7 @@ Final Synthesized Answer
 
 ## 📅 Important Dates
 
-- **Deadline:** January 3rd
+- **Deadline:** 12/01
 - **Final Demo:** In-class demonstration during the last TD session
 
 ⚠️ Make sure all machines are tested, connected, and running before evaluation.
