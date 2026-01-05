@@ -93,38 +93,25 @@ project/
 │
 ├── README.md
 ├── main.py
+├── .gitignore
 ├── pyproject.toml
-├── start.sh
-└── requirements.txt
+└── start.sh
 ```
 
 ---
 
-## ⚙️ Setup and Installation Instructions (to complete)
+## ⚙️ Setup and Installation Instructions 
 
-### Prerequisites
-- Operating System: [...]
-- Python version: [...]
-- Hardware requirements (GPU / RAM): [...]
-- Network requirements (same LAN, IP visibility, ports): [...]
-
-### Step 1 — Clone the Repository
-```
-git clone <repository-url>
-cd <repository-folder>
-```
-### Step 2 — Install Python Dependencies
-```
-pip install -r requirements.txt
-```
-### Step 3 — Install Ollama
+### Step 1 — Setup the environment
+ - (See docs/setup-guide.md)
+### Step 2 — Install Ollama
  - Install Ollama on each machine: https://ollama.com/
-### Step 4 — Pull Required Models
-```
+### Step 3 — Pull Required Models
+```bash
 ollama pull llama3
 ollama pull mistral
 ```
-### Step 5 — Configuration
+### Step 4 — Configuration
  - Configuration files location: [...]
  - How to assign:
       - Chairman model: [...]
@@ -140,8 +127,9 @@ Ensure Ollama is running on:
  - Chairman machine
  - Each council member machine
 ### Step 2 — Start Council Services
-```
-python <entry_point>.py
+Make the file executable on Unix :
+```bash
+chmod +x start.sh
 ```
 ### Step 3 — Submit a Query
  - Method (CLI / Web UI / API): [...]
